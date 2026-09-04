@@ -1,0 +1,8 @@
+node_modules/
+__pycache__/
+*.egg-info/
+.ruff_cache/
+kimodo/kimodo.egg-info/
+kimodo/.ruff_cache/
+*.py[cod]
+.git/

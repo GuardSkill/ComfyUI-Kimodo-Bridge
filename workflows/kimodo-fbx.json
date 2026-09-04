@@ -1,0 +1,427 @@
+{
+  "id": "kimodo-basic-workflow",
+  "revision": 1,
+  "last_node_id": 11,
+  "last_link_id": 19,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "Kimodo_LoadModel",
+      "pos": [
+        0.00031864046377449995,
+        100.00016806901931
+      ],
+      "size": [
+        315,
+        105.796875
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "model",
+          "type": "KIMODO_MODEL",
+          "links": [
+            10,
+            13
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Kimodo_LoadModel"
+      },
+      "widgets_values": [
+        "Kimodo-SOMA-RP-v1"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "Kimodo_TextEncode",
+      "pos": [
+        2.491438592921156,
+        306.1602296249356
+      ],
+      "size": [
+        315,
+        139.140625
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "KIMODO_MODEL",
+          "link": 13
+        }
+      ],
+      "outputs": [
+        {
+          "name": "conditioning",
+          "type": "KIMODO_COND",
+          "links": [
+            11
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Kimodo_TextEncode"
+      },
+      "widgets_values": [
+        "A person walks forward,jumps, and then waves hello."
+      ]
+    },
+    {
+      "id": 5,
+      "type": "Kimodo_Preview",
+      "pos": [
+        1100.0004542741444,
+        0.0001002521790951505
+      ],
+      "size": [
+        280,
+        180
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "motion",
+          "type": "KIMODO_MOTION",
+          "link": 14
+        }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Kimodo_Preview"
+      },
+      "widgets_values": [
+        0,
+        0,
+        512
+      ]
+    },
+    {
+      "id": 6,
+      "type": "Kimodo_Preview3D",
+      "pos": [
+        1226.2640460147963,
+        278.6514600936855
+      ],
+      "size": [
+        491.515625,
+        527.25
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "motion",
+          "type": "KIMODO_MOTION",
+          "link": 15
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "Kimodo_Preview3D"
+      },
+      "widgets_values": [
+        0,
+        ""
+      ]
+    },
+    {
+      "id": 7,
+      "type": "Kimodo_SaveNPZ",
+      "pos": [
+        1499.3596124210462,
+        106.72019788665426
+      ],
+      "size": [
+        280,
+        107.140625
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "motion",
+          "type": "KIMODO_MOTION",
+          "link": 16
+        }
+      ],
+      "outputs": [
+        {
+          "name": "file_path",
+          "type": "STRING",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Kimodo_SaveNPZ"
+      },
+      "widgets_values": [
+        "kimodo_motion"
+      ]
+    },
+    {
+      "id": 9,
+      "type": "Kimodo_Sampler",
+      "pos": [
+        403.10540343667117,
+        161.03867689056054
+      ],
+      "size": [
+        270,
+        259.140625
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "KIMODO_MODEL",
+          "link": 10
+        },
+        {
+          "name": "conditioning",
+          "type": "KIMODO_COND",
+          "link": 11
+        }
+      ],
+      "outputs": [
+        {
+          "name": "motion",
+          "type": "KIMODO_MOTION",
+          "links": [
+            14,
+            15,
+            16,
+            18
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Kimodo_Sampler"
+      },
+      "widgets_values": [
+        5,
+        3087225892,
+        "randomize",
+        1,
+        100,
+        ""
+      ]
+    },
+    {
+      "id": 10,
+      "type": "Kimodo_ExportFBX",
+      "pos": [
+        733.9805694522961,
+        385.3873438827484
+      ],
+      "size": [
+        294.8125,
+        239.140625
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "motion",
+          "type": "KIMODO_MOTION",
+          "link": 18
+        }
+      ],
+      "outputs": [
+        {
+          "name": "file_path",
+          "type": "STRING",
+          "links": [
+            19
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Kimodo_ExportFBX"
+      },
+      "widgets_values": [
+        "I:\\ComfyUI\\input\\3d\\Maria.fbx",
+        "kimodo_fbx",
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": 11,
+      "type": "Preview3D",
+      "pos": [
+        711.4733672085454,
+        735.4836664508731
+      ],
+      "size": [
+        839.671875,
+        690.265625
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "camera_info",
+          "shape": 7,
+          "type": "LOAD3D_CAMERA",
+          "link": null
+        },
+        {
+          "name": "bg_image",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "model_file",
+          "type": "STRING,FILE_3D_GLB,FILE_3D_GLTF,FILE_3D_FBX,FILE_3D_OBJ,FILE_3D_STL,FILE_3D_USDZ,FILE_3D",
+          "widget": {
+            "name": "model_file"
+          },
+          "link": 19
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "Preview3D",
+        "Last Time Model File": "I:/ComfyUI/output/kimodo_fbx_20260331_173121_60532756.fbx",
+        "Resource Folder": "ComfyUI/output",
+        "Scene Config": {
+          "showGrid": false,
+          "backgroundColor": "#282828",
+          "backgroundImage": "",
+          "backgroundRenderMode": "tiled"
+        },
+        "Camera Config": {
+          "cameraType": "perspective",
+          "fov": 35,
+          "state": {
+            "position": {
+              "x": 6.477816196955481,
+              "y": 14.268998409945542,
+              "z": 24.812375955924164
+            },
+            "target": {
+              "x": 0,
+              "y": 2.5,
+              "z": 0
+            },
+            "zoom": 1,
+            "cameraType": "perspective"
+          }
+        },
+        "Light Config": {
+          "intensity": 3
+        }
+      },
+      "widgets_values": [
+        "I:/ComfyUI/output/kimodo_fbx_20260331_173121_60532756.fbx",
+        ""
+      ]
+    }
+  ],
+  "links": [
+    [
+      10,
+      1,
+      0,
+      9,
+      0,
+      "KIMODO_MODEL"
+    ],
+    [
+      11,
+      2,
+      0,
+      9,
+      1,
+      "KIMODO_COND"
+    ],
+    [
+      13,
+      1,
+      0,
+      2,
+      0,
+      "KIMODO_MODEL"
+    ],
+    [
+      14,
+      9,
+      0,
+      5,
+      0,
+      "KIMODO_MOTION"
+    ],
+    [
+      15,
+      9,
+      0,
+      6,
+      0,
+      "KIMODO_MOTION"
+    ],
+    [
+      16,
+      9,
+      0,
+      7,
+      0,
+      "KIMODO_MOTION"
+    ],
+    [
+      18,
+      9,
+      0,
+      10,
+      0,
+      "KIMODO_MOTION"
+    ],
+    [
+      19,
+      10,
+      0,
+      11,
+      2,
+      "STRING"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.45234921533689354,
+      "offset": [
+        1658.1900833827433,
+        612.2528688062847
+      ]
+    },
+    "frontendVersion": "1.43.3",
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true
+  },
+  "version": 0.4
+}

@@ -1,0 +1,19 @@
+Kimodo Motion Bridge for ComfyUI
+
+This distribution contains and modifies integration code derived from
+ComfyUI-Kimodo by jtydhr88:
+https://github.com/jtydhr88/ComfyUI-Kimodo
+
+It embeds source from NVIDIA Kimodo:
+https://github.com/nv-tlabs/kimodo
+Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES.
+
+The embedded Kimodo source is licensed under Apache License 2.0. Third-party
+notices from the upstream project are retained in kimodo/ATTRIBUTIONS.MD.
+
+The Mixamo, Unity and Rive bridge implementation, runtime renderer, packaging,
+documentation, and installation changes were added by GuardSkill in 2026.
+
+Rive runtime packages are downloaded from npm during installation and remain
+under their respective upstream licenses. No example .riv character or model
+weight is included in the published node package.

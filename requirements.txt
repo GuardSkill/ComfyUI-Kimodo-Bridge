@@ -1,0 +1,11 @@
+--extra-index-url https://gitlab.inria.fr/api/v4/projects/18692/packages/pypi/simple
+fbxsdkpy==2020.1.post2
+
+hydra-core>=1.3
+omegaconf>=2.3
+peft>=0.18
+bvhio
+trimesh>=3.21.7
+scenepic>=1.1.0
+Pillow>=10.0
+scipy>=1.11

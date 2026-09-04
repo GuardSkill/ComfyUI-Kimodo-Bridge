@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+node_modules/
+*.egg-info/
+.ruff_cache/
+*.zip
+.DS_Store

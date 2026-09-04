@@ -1,0 +1,28 @@
+<!doctype html><meta charset="utf-8"><style>html,body{margin:0;background:#07101f;overflow:hidden}canvas{display:block}</style>
+<canvas id="rive"></canvas><script type="module">
+import Rive from '/runtime/canvas_advanced.mjs';
+const canvas=document.querySelector('#rive');
+const cfg=await (await fetch('./render-config.json')).json();canvas.width=cfg.width;canvas.height=cfg.height;
+const R=await Rive({locateFile:()=>'/runtime/rive.wasm'});
+const bytes=new Uint8Array(await (await fetch('./skin.riv')).arrayBuffer());
+const file=await R.load(bytes,undefined,false), motion=await (await fetch('./motion.json')).json();
+const map=await (await fetch('./bone-map.json')).json();
+const artboard=file.defaultArtboard(),renderer=R.makeRenderer(canvas),bounds={minX:20,minY:20,maxX:cfg.width-20,maxY:cfg.height-20};
+const entries=[];
+for(const [target,source] of Object.entries(map)){
+ const bone=artboard.bone(target);if(!bone)continue;
+ const ids=(Array.isArray(source)?source:[source]).map(x=>typeof x==='number'?x:motion.bones.indexOf(x)).filter(x=>x>=0);
+ if(ids.length)entries.push({bone,ids,rest:bone.rotation});
+}
+const value=(frame,ids)=>ids.reduce((sum,id)=>sum+frame.localAngles[id],0);
+let requestedFrame=0;
+window.renderKimodoFrame=(index)=>{requestedFrame=index;};
+function draw(){
+ const index=requestedFrame;
+ const frame=motion.frames[index],base=motion.frames[0];
+ for(const item of entries)item.bone.rotation=item.rest+value(frame,item.ids)-value(base,item.ids);
+ artboard.advance(0);renderer.clear();renderer.save();renderer.align(R.Fit.contain,R.Alignment.center,bounds,artboard.bounds);artboard.draw(renderer);renderer.restore();
+ R.requestAnimationFrame(draw);
+}
+window.kimodoFrameCount=motion.frames.length;window.kimodoReady=true;R.requestAnimationFrame(draw);
+</script>

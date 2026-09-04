@@ -1,0 +1,9 @@
+{
+  "name": "comfyui-kimodo-rive-renderer",
+  "private": true,
+  "version": "0.1.0",
+  "dependencies": {
+    "@rive-app/canvas-advanced": "2.34.1",
+    "playwright": "1.62.1"
+  }
+}

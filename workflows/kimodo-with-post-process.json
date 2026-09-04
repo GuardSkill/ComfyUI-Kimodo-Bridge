@@ -1,0 +1,385 @@
+{
+  "id": "kimodo-basic-workflow",
+  "revision": 1,
+  "last_node_id": 9,
+  "last_link_id": 13,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "Kimodo_LoadModel",
+      "pos": [
+        0.00031864046377449995,
+        100.00016806901931
+      ],
+      "size": [
+        315,
+        105.796875
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "model",
+          "type": "KIMODO_MODEL",
+          "links": [
+            10,
+            13
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Kimodo_LoadModel"
+      },
+      "widgets_values": [
+        "Kimodo-SOMA-RP-v1"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "Kimodo_TextEncode",
+      "pos": [
+        2.491438592921156,
+        306.1602296249356
+      ],
+      "size": [
+        315,
+        139.140625
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "KIMODO_MODEL",
+          "link": 13
+        }
+      ],
+      "outputs": [
+        {
+          "name": "conditioning",
+          "type": "KIMODO_COND",
+          "links": [
+            11
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Kimodo_TextEncode"
+      },
+      "widgets_values": [
+        "A person walks forward,jumps, and then waves hello."
+      ]
+    },
+    {
+      "id": 4,
+      "type": "Kimodo_PostProcess",
+      "pos": [
+        760.0005899078249,
+        220.00023588585964
+      ],
+      "size": [
+        280,
+        103.140625
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "motion",
+          "type": "KIMODO_MOTION",
+          "link": 12
+        }
+      ],
+      "outputs": [
+        {
+          "name": "motion",
+          "type": "KIMODO_MOTION",
+          "links": [
+            5,
+            6,
+            7,
+            8
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Kimodo_PostProcess"
+      },
+      "widgets_values": [
+        0.04
+      ]
+    },
+    {
+      "id": 5,
+      "type": "Kimodo_Preview",
+      "pos": [
+        1100.0004542741444,
+        0.0001002521790951505
+      ],
+      "size": [
+        280,
+        180
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "motion",
+          "type": "KIMODO_MOTION",
+          "link": 5
+        }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Kimodo_Preview"
+      },
+      "widgets_values": [
+        0,
+        0,
+        512
+      ]
+    },
+    {
+      "id": 6,
+      "type": "Kimodo_Preview3D",
+      "pos": [
+        759.7039288272963,
+        397.691621226498
+      ],
+      "size": [
+        491.515625,
+        527.25
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "motion",
+          "type": "KIMODO_MOTION",
+          "link": 6
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "Kimodo_Preview3D"
+      },
+      "widgets_values": [
+        0,
+        ""
+      ]
+    },
+    {
+      "id": 7,
+      "type": "Kimodo_SaveNPZ",
+      "pos": [
+        1474.3999639835463,
+        248.80025403899802
+      ],
+      "size": [
+        280,
+        107.140625
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "motion",
+          "type": "KIMODO_MOTION",
+          "link": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "file_path",
+          "type": "STRING",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Kimodo_SaveNPZ"
+      },
+      "widgets_values": [
+        "kimodo_motion"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "Kimodo_ExportBVH",
+      "pos": [
+        1473.1194561710463,
+        474.960068492123
+      ],
+      "size": [
+        280,
+        139.140625
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "motion",
+          "type": "KIMODO_MOTION",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "file_path",
+          "type": "STRING",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Kimodo_ExportBVH"
+      },
+      "widgets_values": [
+        "kimodo_motion",
+        0
+      ]
+    },
+    {
+      "id": 9,
+      "type": "Kimodo_Sampler",
+      "pos": [
+        403.10540343667117,
+        161.03867689056054
+      ],
+      "size": [
+        270,
+        259.140625
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "KIMODO_MODEL",
+          "link": 10
+        },
+        {
+          "name": "conditioning",
+          "type": "KIMODO_COND",
+          "link": 11
+        }
+      ],
+      "outputs": [
+        {
+          "name": "motion",
+          "type": "KIMODO_MOTION",
+          "links": [
+            12
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Kimodo_Sampler"
+      },
+      "widgets_values": [
+        5,
+        1037866316,
+        "randomize",
+        1,
+        100,
+        ""
+      ]
+    }
+  ],
+  "links": [
+    [
+      5,
+      4,
+      0,
+      5,
+      0,
+      "KIMODO_MOTION"
+    ],
+    [
+      6,
+      4,
+      0,
+      6,
+      0,
+      "KIMODO_MOTION"
+    ],
+    [
+      7,
+      4,
+      0,
+      7,
+      0,
+      "KIMODO_MOTION"
+    ],
+    [
+      8,
+      4,
+      0,
+      8,
+      0,
+      "KIMODO_MOTION"
+    ],
+    [
+      10,
+      1,
+      0,
+      9,
+      0,
+      "KIMODO_MODEL"
+    ],
+    [
+      11,
+      2,
+      0,
+      9,
+      1,
+      "KIMODO_COND"
+    ],
+    [
+      12,
+      9,
+      0,
+      4,
+      0,
+      "KIMODO_MOTION"
+    ],
+    [
+      13,
+      1,
+      0,
+      2,
+      0,
+      "KIMODO_MODEL"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.8928571428571428,
+      "offset": [
+        451.7227703914539,
+        160.45243150787698
+      ]
+    },
+    "frontendVersion": "1.43.3",
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true
+  },
+  "version": 0.4
+}
