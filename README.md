@@ -108,6 +108,13 @@ For your own character:
 6. For a new rig, set `bone_mapping_json` to a JSON file described below.
 7. Queue the graph. The node returns MP4, GIF, and a reusable ZIP asset bundle.
 
+The ZIP contains runtime skeleton animation: `motion.json` stores per-frame root
+translation, local bone angles, and projected joints, while `bone-map.json`
+binds those channels to the weighted bones in the `.riv` file. It does not bake
+keys into the Rive Editor timeline or mutate the authored `.riv`; the included
+runtime driver plays the skeleton track, and MP4/GIF are renders of that same
+track.
+
 Example mapping (target Rive bone names on the left, Kimodo joints on the right):
 
 ```json
@@ -133,6 +140,33 @@ Additional ready-to-load workflows are under `workflows/`, including
 Mixamo-rigged FBX because no third-party character FBX is redistributed.
 
 ### Models
+
+The node resolves paths through ComfyUI rather than relying on an installation
+directory. Use this portable layout:
+
+```text
+ComfyUI/
+├── input/
+│   ├── 3d/YourMixamoCharacter.fbx
+│   └── rive/YourCharacter.riv
+└── models/
+    ├── Kimodo/Kimodo-SMPLX-RP-v1/
+    └── text_encoders/
+        ├── meta-llama/Meta-Llama-3-8B-Instruct/
+        └── McGill-NLP/
+            ├── LLM2Vec-Meta-Llama-3-8B-Instruct-mntp/
+            └── LLM2Vec-Meta-Llama-3-8B-Instruct-mntp-supervised/
+```
+
+Node fields accept paths relative to the ComfyUI root, such as
+`input/rive/YourCharacter.riv`, or relative to `ComfyUI/input`, such as
+`rive/YourCharacter.riv`. `builtin:` addresses resources shipped with this node.
+Absolute paths remain supported for advanced deployments but are never required
+by the bundled workflows.
+
+The `kimodo` and standard `text_encoders` model categories also honor search
+roots configured in `extra_model_paths.yaml`. Explicit `CHECKPOINT_DIR` and
+`TEXT_ENCODERS_DIR` environment variables take precedence when set.
 
 Models download automatically from HuggingFace on first use:
 

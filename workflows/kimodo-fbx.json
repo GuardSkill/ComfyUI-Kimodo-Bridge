@@ -259,7 +259,7 @@
         "Node name for S&R": "Kimodo_ExportFBX"
       },
       "widgets_values": [
-        "I:\\ComfyUI\\input\\3d\\Maria.fbx",
+        "input/3d/YourMixamoCharacter.fbx",
         "kimodo_fbx",
         0,
         0,
@@ -305,7 +305,7 @@
       "outputs": [],
       "properties": {
         "Node name for S&R": "Preview3D",
-        "Last Time Model File": "I:/ComfyUI/output/kimodo_fbx_20260331_173121_60532756.fbx",
+        "Last Time Model File": "",
         "Resource Folder": "ComfyUI/output",
         "Scene Config": {
           "showGrid": false,
@@ -336,7 +336,7 @@
         }
       },
       "widgets_values": [
-        "I:/ComfyUI/output/kimodo_fbx_20260331_173121_60532756.fbx",
+        "",
         ""
       ]
     }

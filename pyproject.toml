@@ -1,7 +1,7 @@
 [project]
 name = "comfyui-kimodo-bridge"
 description = "Kimodo text-to-motion nodes and production bridges for Mixamo, Unity Humanoid, and Rive 2D characters"
-version = "1.0.0"
+version = "1.0.1"
 license = "Apache-2.0"
 requires-python = ">=3.10"
 dependencies = [

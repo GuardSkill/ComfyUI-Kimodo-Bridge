@@ -20,6 +20,65 @@ print("[Kimodo] nodes.py: comfy imports OK", flush=True)
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 KIMODO_PROJECT_DIR = os.path.join(CURRENT_DIR, "kimodo")
 
+
+def _folder_paths(category, fallback):
+    """Return normalized ComfyUI search roots for a model category."""
+    try:
+        paths = folder_paths.get_folder_paths(category)
+    except KeyError:
+        paths = []
+    result = []
+    for path in [*paths, fallback]:
+        normalized = os.path.abspath(os.path.expanduser(path))
+        if normalized not in result:
+            result.append(normalized)
+    return result
+
+
+# Register a standard model category so extra_model_paths.yaml can extend it.
+KIMODO_MODELS_DIR = os.path.join(folder_paths.models_dir, "Kimodo")
+COMFY_ROOT = os.path.dirname(os.path.abspath(folder_paths.models_dir))
+os.makedirs(KIMODO_MODELS_DIR, exist_ok=True)
+try:
+    folder_paths.add_model_folder_path("kimodo", KIMODO_MODELS_DIR)
+except Exception as exc:
+    print(f"[Kimodo] Could not register model folder: {exc}", flush=True)
+
+
+def _configure_comfy_model_paths():
+    """Prefer ComfyUI-managed model roots while preserving explicit overrides."""
+    if not os.environ.get("CHECKPOINT_DIR"):
+        roots = _folder_paths("kimodo", KIMODO_MODELS_DIR)
+        # Kimodo accepts one checkpoint root. Pick the first root containing a
+        # known model, otherwise the writable standard ComfyUI location.
+        selected = next((root for root in roots if any(
+            os.path.isdir(os.path.join(root, name))
+            for name in ("Kimodo-SMPLX-RP-v1", "Kimodo-SOMA-RP-v1", "Kimodo-G1-RP-v1")
+        )), KIMODO_MODELS_DIR)
+        os.environ["CHECKPOINT_DIR"] = selected
+
+    if not os.environ.get("TEXT_ENCODERS_DIR"):
+        standard = os.path.join(folder_paths.models_dir, "text_encoders")
+        legacy = os.path.join(KIMODO_MODELS_DIR, "text_encoders")
+        legacy = os.path.join(KIMODO_MODELS_DIR, "text_encoders")
+        roots = []
+        for root in [*_folder_paths("text_encoders", standard), legacy]:
+            if root not in roots:
+                roots.append(root)
+        if legacy not in roots:
+            roots.append(legacy)
+        # Expected portable layout:
+        # models/text_encoders/meta-llama/Meta-Llama-3-8B-Instruct
+        # models/text_encoders/McGill-NLP/LLM2Vec-...
+        selected = next((root for root in roots if
+            os.path.isdir(os.path.join(root, "meta-llama", "Meta-Llama-3-8B-Instruct"))
+            and os.path.isdir(os.path.join(root, "McGill-NLP"))), None)
+        if selected:
+            os.environ["TEXT_ENCODERS_DIR"] = selected
+
+
+_configure_comfy_model_paths()
+
 if KIMODO_PROJECT_DIR not in sys.path:
     sys.path.insert(0, KIMODO_PROJECT_DIR)
     print(f"[Kimodo] Added to sys.path: {KIMODO_PROJECT_DIR}", flush=True)
@@ -47,12 +106,6 @@ from kimodo.model.registry import MODEL_INFOS, KIMODO_MODELS, get_model_info
 from kimodo.tools import seed_everything
 
 print("[Kimodo] All imports OK", flush=True)
-
-# ---------------------------------------------------------------------------
-# Constants
-# ---------------------------------------------------------------------------
-KIMODO_MODELS_DIR = os.path.join(folder_paths.models_dir, "Kimodo")
-os.makedirs(KIMODO_MODELS_DIR, exist_ok=True)
 
 # Build display name list for dropdown
 _MODEL_CHOICES = []
@@ -120,9 +173,7 @@ class Kimodo_LoadModel:
         if short_key is None:
             short_key = model
 
-        # Set CHECKPOINT_DIR to ComfyUI models folder if models exist there
-        if os.path.isdir(os.path.join(KIMODO_MODELS_DIR, model)):
-            os.environ["CHECKPOINT_DIR"] = KIMODO_MODELS_DIR
+        _configure_comfy_model_paths()
 
         kimodo_model, resolved = load_model(
             short_key, device=str(device), return_resolved_name=True
@@ -425,7 +476,7 @@ class Kimodo_ExportFBX:
                 return path
 
         # Relative to ComfyUI root
-        comfy_root = os.path.dirname(folder_paths.get_output_directory())
+        comfy_root = COMFY_ROOT
         print(f"[Kimodo] ComfyUI root: '{comfy_root}'", flush=True)
 
         candidates = []
@@ -457,7 +508,7 @@ class Kimodo_ExportFBX:
         if resolved is None:
             print(f"[Kimodo] No valid FBX path provided. Input was: '{custom_fbx_path}'", flush=True)
             print("[Kimodo] Please provide a Mixamo FBX file path. Examples:", flush=True)
-            print("[Kimodo]   Absolute: I:/ComfyUI/input/3d/character.fbx", flush=True)
+            print("[Kimodo]   Relative: input/3d/character.fbx", flush=True)
             print("[Kimodo]   Relative: 3d/character.fbx (looks in ComfyUI/input/)", flush=True)
             print("[Kimodo]   Prefixed: input/3d/character.fbx", flush=True)
             return ("",)
@@ -569,7 +620,7 @@ class Kimodo_ExportRive:
                rive_template_path=""):
         from platform_exports import make_rive_bundle
 
-        comfy_root = os.path.dirname(folder_paths.get_output_directory())
+        comfy_root = COMFY_ROOT
         result = make_rive_bundle(
             motion, folder_paths.get_output_directory(), filename_prefix,
             sample_index, view, pixels_per_meter, include_root_motion,
@@ -606,7 +657,7 @@ class Kimodo_RenderRiveSkin:
                sample_index=0, view="front", bone_mapping_json="builtin:zombie-kimodo-map.json",
                pixels_per_meter=240.0, include_root_motion=True, width=720, height=720):
         from platform_exports import render_rive_skin_video
-        root = os.path.dirname(folder_paths.get_output_directory())
+        root = COMFY_ROOT
         return render_rive_skin_video(
             motion, folder_paths.get_output_directory(), filename_prefix,
             sample_index, view, pixels_per_meter, include_root_motion,

@@ -85,6 +85,11 @@ Rive 视频输出还需要 Node.js 18+、npm、ffmpeg/ffprobe 和 Chromium。
 5. 新角色在 `bone_mapping_json` 中填写目标 Rive 骨骼到 Kimodo 关节的映射。
 6. 执行后得到 MP4、GIF 和包含蒙皮、动作 JSON、映射的 ZIP。
 
+ZIP 中的 `motion.json` 是可播放的逐帧骨架动画（根位移、局部骨骼角度和
+投影关节点），`bone-map.json` 将它映射到 `.riv` 的已蒙皮骨骼。它属于 Rive
+Runtime 动画资产，不会改写 `.riv`，因此在 Rive Editor 时间轴中不会出现烘焙
+关键帧；通过随包 Runtime 驱动即可播放，MP4/GIF 是同一骨架轨迹的实渲结果。
+
 映射示例：
 
 ```json
@@ -106,6 +111,29 @@ Rive 视频输出还需要 Node.js 18+、npm、ffmpeg/ffprobe 和 Chromium。
 示例不会内置 FBX，需要用户自行指定一个 Mixamo 绑定角色。
 
 ### 模型
+
+节点通过 ComfyUI 解析目录，不依赖安装机器的绝对路径。推荐使用以下可移植结构：
+
+```text
+ComfyUI/
+├── input/
+│   ├── 3d/YourMixamoCharacter.fbx
+│   └── rive/YourCharacter.riv
+└── models/
+    ├── Kimodo/Kimodo-SMPLX-RP-v1/
+    └── text_encoders/
+        ├── meta-llama/Meta-Llama-3-8B-Instruct/
+        └── McGill-NLP/
+            ├── LLM2Vec-Meta-Llama-3-8B-Instruct-mntp/
+            └── LLM2Vec-Meta-Llama-3-8B-Instruct-mntp-supervised/
+```
+
+节点参数可以填写相对 ComfyUI 根目录的 `input/rive/YourCharacter.riv`，也可以
+填写相对 `ComfyUI/input` 的 `rive/YourCharacter.riv`。`builtin:` 表示节点包内置
+资源。仍支持绝对路径，但示例工作流不需要绝对路径。
+
+`kimodo` 和标准 `text_encoders` 分类也会读取 `extra_model_paths.yaml` 配置的
+检索目录；如果显式配置 `CHECKPOINT_DIR` 或 `TEXT_ENCODERS_DIR`，环境变量优先。
 
 首次使用时自动从 HuggingFace 下载：
 
