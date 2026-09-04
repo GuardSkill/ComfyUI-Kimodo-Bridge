@@ -1,0 +1,13 @@
+{
+  "hips": "pelvis",
+  "body": ["spine1", "spine2", "spine3"],
+  "Head": ["neck", "head"],
+  "Leg_front": "left_hip",
+  "Knee_front": "left_knee",
+  "Foot_front": ["left_ankle", "left_foot"],
+  "Leg_back": "right_hip",
+  "Knee_back": "right_knee",
+  "Foot_back": ["right_ankle", "right_foot"],
+  "Arm_front": ["left_collar", "left_shoulder", "left_elbow"],
+  "Arm_back": ["right_collar", "right_shoulder", "right_elbow"]
+}

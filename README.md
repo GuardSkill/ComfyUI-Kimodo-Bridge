@@ -93,6 +93,12 @@ Restart ComfyUI. The **Kimodo** nodes will appear under the `Kimodo` category.
 
 ### Rive skin upload and production workflow
 
+The node pack includes a redistributable MIT-licensed Rive Zombie skin, its bone
+map, and `workflows/kimodo-rive-skinned-character.json`. Leave both resource
+fields on their `builtin:` defaults to run the example immediately.
+
+For your own character:
+
 1. Put the authored, weighted `.riv` file under `ComfyUI/input/rive/`, or use
    an absolute local path.
 2. Generate motion with `Load Model → Text Encode → Sampler`.
@@ -121,6 +127,10 @@ The `.riv` is not rewritten. The included official Rive Canvas Advanced runtime
 loads its authored mesh/weights and drives writable bones with the projected
 Kimodo track. Because Rive is 2D, front/back depth and self-occlusion require
 authored views or state-machine art swaps for production-quality turning.
+
+Additional ready-to-load workflows are under `workflows/`, including
+`kimodo-unity-humanoid.json`. The Unity example requires the user to supply a
+Mixamo-rigged FBX because no third-party character FBX is redistributed.
 
 ### Models
 

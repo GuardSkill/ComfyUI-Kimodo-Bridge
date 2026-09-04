@@ -584,12 +584,12 @@ class Kimodo_RenderRiveSkin:
     def INPUT_TYPES(s):
         return {"required": {
             "motion": ("KIMODO_MOTION",),
-            "rive_skin_path": ("STRING", {"default": "", "tooltip": "Authored and weighted .riv skin"}),
+            "rive_skin_path": ("STRING", {"default": "builtin:Zombie_Character.riv", "tooltip": "Authored and weighted .riv skin; builtin: uses the packaged demo"}),
             "filename_prefix": ("STRING", {"default": "kimodo_rive_character"}),
             "sample_index": ("INT", {"default": 0, "min": 0, "max": 15}),
             "view": (["front", "side"], {"default": "front"}),
         }, "optional": {
-            "bone_mapping_json": ("STRING", {"default": "", "tooltip": "Target Rive bone -> Kimodo bone name(s). Empty uses the bundled Zombie map."}),
+            "bone_mapping_json": ("STRING", {"default": "builtin:zombie-kimodo-map.json", "tooltip": "Target Rive bone -> Kimodo bone name(s)."}),
             "pixels_per_meter": ("FLOAT", {"default": 240.0, "min": 1.0, "max": 2000.0}),
             "include_root_motion": ("BOOLEAN", {"default": True}),
             "width": ("INT", {"default": 720, "min": 128, "max": 2048, "step": 8}),
@@ -602,8 +602,8 @@ class Kimodo_RenderRiveSkin:
     CATEGORY = "Kimodo/Export"
     OUTPUT_NODE = True
 
-    def render(self, motion, rive_skin_path, filename_prefix="kimodo_rive_character",
-               sample_index=0, view="front", bone_mapping_json="",
+    def render(self, motion, rive_skin_path="builtin:Zombie_Character.riv", filename_prefix="kimodo_rive_character",
+               sample_index=0, view="front", bone_mapping_json="builtin:zombie-kimodo-map.json",
                pixels_per_meter=240.0, include_root_motion=True, width=720, height=720):
         from platform_exports import render_rive_skin_video
         root = os.path.dirname(folder_paths.get_output_directory())

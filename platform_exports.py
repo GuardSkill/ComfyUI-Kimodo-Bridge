@@ -288,10 +288,17 @@ def render_rive_skin_video(motion, output_dir: str, filename_prefix: str,
                            width: int = 720, height: int = 720) -> tuple[str, str, str]:
     """Render an authored, weighted .riv skin through the official web runtime."""
     plugin_dir = Path(__file__).resolve().parent
-    template = _resolve_optional_path(template_path, comfy_root)
+    if not template_path or template_path.startswith("builtin:"):
+        builtin_name = template_path.partition(":")[2] or "Zombie_Character.riv"
+        template = (plugin_dir / "assets" / "rive" / builtin_name).resolve()
+    else:
+        template = _resolve_optional_path(template_path, comfy_root)
     if template is None or template.suffix.lower() != ".riv":
         raise ValueError("A valid authored .riv skin is required")
-    mapping_file = _resolve_optional_path(mapping_path, comfy_root) if mapping_path else None
+    if mapping_path.startswith("builtin:"):
+        mapping_file = (plugin_dir / "assets" / "rive" / mapping_path.partition(":")[2]).resolve()
+    else:
+        mapping_file = _resolve_optional_path(mapping_path, comfy_root) if mapping_path else None
     mapping = json.loads(mapping_file.read_text(encoding="utf-8")) if mapping_file else ZOMBIE_MAP
     track = build_rive_track(motion, sample_index, view, pixels_per_meter, include_root_motion)
     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")

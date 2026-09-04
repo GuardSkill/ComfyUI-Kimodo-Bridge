@@ -72,6 +72,12 @@ Rive 视频输出还需要 Node.js 18+、npm、ffmpeg/ffprobe 和 Chromium。
 
 ### Rive 蒙皮生产流程
 
+节点包已经内置可再分发的 MIT 许可 Zombie Rive 蒙皮、骨骼映射，以及
+`workflows/kimodo-rive-skinned-character.json`。两个资源字段保持 `builtin:`
+默认值即可直接运行示例。
+
+使用自己的角色时：
+
 1. 将已经绑定并蒙皮的 `.riv` 放到 `ComfyUI/input/rive/`。
 2. 使用 `Load Model → Text Encode → Sampler → Post Process（可选）` 生成动作。
 3. 连接 **Kimodo Render Rive Skinned Character**。
@@ -95,6 +101,9 @@ Rive 视频输出还需要 Node.js 18+、npm、ffmpeg/ffprobe 和 Chromium。
 
 节点通过 Rive 官方 Canvas Advanced Runtime 驱动 `.riv` 中已有的真实网格和权重，
 不会伪造或改写 `.riv` 二进制。Rive 是二维系统，转身的前后遮挡仍需要角色美术制作多视图或状态机切换。
+
+`workflows/` 还包含 Unity Humanoid 示例；出于第三方角色授权原因，Unity
+示例不会内置 FBX，需要用户自行指定一个 Mixamo 绑定角色。
 
 ### 模型
 

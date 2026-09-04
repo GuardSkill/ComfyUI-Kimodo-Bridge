@@ -15,5 +15,7 @@ The Mixamo, Unity and Rive bridge implementation, runtime renderer, packaging,
 documentation, and installation changes were added by GuardSkill in 2026.
 
 Rive runtime packages are downloaded from npm during installation and remain
-under their respective upstream licenses. No example .riv character or model
-weight is included in the published node package.
+under their respective upstream licenses. The bundled Zombie example `.riv`
+comes from Rive's official Flutter example repository and is distributed under
+the MIT license retained at assets/rive/LICENSE.txt. No model weight is included
+in the published node package.

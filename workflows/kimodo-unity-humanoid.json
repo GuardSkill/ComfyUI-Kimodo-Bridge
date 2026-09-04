@@ -1,0 +1,14 @@
+{
+  "id": "kimodo-unity-humanoid",
+  "revision": 1,
+  "last_node_id": 4,
+  "last_link_id": 4,
+  "nodes": [
+    {"id": 1, "type": "Kimodo_LoadModel", "pos": [0,120], "size": [315,106], "flags": {}, "order": 0, "mode": 0, "inputs": [], "outputs": [{"name":"model","type":"KIMODO_MODEL","links":[1,2]}], "properties":{"Node name for S&R":"Kimodo_LoadModel"}, "widgets_values":["Kimodo-SMPLX-RP-v1"]},
+    {"id": 2, "type": "Kimodo_TextEncode", "pos": [360,20], "size": [330,150], "flags": {}, "order": 1, "mode": 0, "inputs": [{"name":"model","type":"KIMODO_MODEL","link":1}], "outputs": [{"name":"conditioning","type":"KIMODO_COND","links":[3]}], "properties":{"Node name for S&R":"Kimodo_TextEncode"}, "widgets_values":["A person runs forward and leaps over an obstacle."]},
+    {"id": 3, "type": "Kimodo_Sampler", "pos": [360,230], "size": [315,260], "flags": {}, "order": 2, "mode": 0, "inputs": [{"name":"model","type":"KIMODO_MODEL","link":2},{"name":"conditioning","type":"KIMODO_COND","link":3}], "outputs": [{"name":"motion","type":"KIMODO_MOTION","links":[4]}], "properties":{"Node name for S&R":"Kimodo_Sampler"}, "widgets_values":[5,42,"fixed",1,100,""]},
+    {"id": 4, "type": "Kimodo_ExportUnity", "pos": [780,150], "size": [390,280], "flags": {}, "order": 3, "mode": 0, "inputs": [{"name":"motion","type":"KIMODO_MOTION","link":4}], "outputs": [{"name":"unity_zip","type":"STRING","links":[]},{"name":"fbx_path","type":"STRING","links":[]}], "properties":{"Node name for S&R":"Kimodo_ExportUnity"}, "widgets_values":["input/3d/YourMixamoCharacter.fbx","kimodo_unity_demo",0,0,0]}
+  ],
+  "links": [[1,1,0,2,0,"KIMODO_MODEL"],[2,1,0,3,0,"KIMODO_MODEL"],[3,2,0,3,1,"KIMODO_COND"],[4,3,0,4,0,"KIMODO_MOTION"]],
+  "groups": [], "config": {}, "extra": {"frontendVersion":"1.43.3"}, "version": 0.4
+}
