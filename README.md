@@ -53,6 +53,11 @@ comfy node registry-install comfyui-kimodo-bridge
 
 Restart ComfyUI after installation.
 
+> Registry listing is activated after the repository owner creates the
+> `guardskill` publisher at [registry.comfy.org](https://registry.comfy.org),
+> generates a publishing API key, and runs the included publish workflow. Until
+> then, use the Git installation below.
+
 ### ComfyUI Manager
 
 Search for **Kimodo Motion Bridge**, or install the Registry ID:

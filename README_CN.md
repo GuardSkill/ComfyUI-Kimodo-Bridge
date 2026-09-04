@@ -49,6 +49,9 @@
 comfy node registry-install comfyui-kimodo-bridge
 ```
 
+Registry 页面需要仓库所有者先在 [registry.comfy.org](https://registry.comfy.org)
+创建 `guardskill` Publisher、生成发布密钥并运行仓库内的发布工作流。在此之前请使用下面的 GitHub 安装方式。
+
 也可以在 ComfyUI Manager 搜索 **Kimodo Motion Bridge**，或从 GitHub 安装：
 
 将此仓库克隆到 ComfyUI 的 `custom_nodes` 目录：
